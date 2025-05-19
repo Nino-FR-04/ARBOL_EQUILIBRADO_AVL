@@ -15,9 +15,9 @@ public class NodeAVL<E extends Comparable<E>> extends NodeTree<E> {
     public void setFactEquilibrio(int fe) {
     	this.bf = fe;
     }
-
     @Override
     public String toString() {
-        return "(" + this.data + ", " + this.bf + ")";
+        return "[Dato: " + this.data + ", FE: " + this.bf + "]";
     }
+
 }
