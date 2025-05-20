@@ -7,7 +7,7 @@ import impl_Flores_Nino.Excepciones.*;
 public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree <E> {
 
     //Atributos
-    private NodeTree<E> root;
+    protected NodeTree<E> root;
 
     //Constructor
     public LinkedBST() {
@@ -140,7 +140,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @return el nodo que contiene el dato especificado, o {@code null} si no se encuentra
      * @throws ExceptionIsEmpty si el árbol está vacío
      */
-    private NodeTree<E> searchNode(E data) throws ExceptionIsEmpty {
+    protected NodeTree<E> searchNode(E data) throws ExceptionIsEmpty {
         if(this.isEmpty())
             throw new ExceptionIsEmpty("El arbol se encuentra vacio");
         
@@ -205,7 +205,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @return la nueva raíz del subárbol después de la eliminación
      * @throws ExceptionItemNotFound si el nodo con el valor no se encuentra
      */
-    private NodeTree<E> deleteRecursivo(NodeTree<E> rootSub,E data) throws ExceptionItemNotFound {
+    protected NodeTree<E> deleteRecursivo(NodeTree<E> rootSub,E data) throws ExceptionItemNotFound {
         if(rootSub == null) 
             throw new ExceptionItemNotFound("Item no encontrado");
 
@@ -287,7 +287,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
     }
 
     //Metodo recursivo para contar los nodos
-    private int countNodes(NodeTree<E> node) {
+    protected int countNodes(NodeTree<E> node) {
         if(node == null || 
                 node.getLeft() == null && node.getRight() == null) {
             return 0;
@@ -430,7 +430,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param node El nodo actual desde el cual se comienza el recorrido.
      * @return Un StringBuilder con los elementos en preorden.
      */
-    private StringBuilder preOrden(NodeTree<E> node) {
+    protected StringBuilder preOrden(NodeTree<E> node) {
         
         StringBuilder sb = new StringBuilder();
 
@@ -460,7 +460,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param node El nodo actual desde el cual se comienza el recorrido.
      * @return Un StringBuilder con los elementos en inorden.
      */
-    private StringBuilder inOrden(NodeTree<E> node) {
+    protected StringBuilder inOrden(NodeTree<E> node) {
         
         StringBuilder sb = new StringBuilder();
 
@@ -490,7 +490,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param node El nodo actual desde el cual se comienza el recorrido.
      * @return Un StringBuilder con los elementos en postorden.
      */
-    private StringBuilder postOrden(NodeTree<E> node) {
+    protected StringBuilder postOrden(NodeTree<E> node) {
         
         StringBuilder sb = new StringBuilder();
 
@@ -518,7 +518,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param rootSub La raíz del subárbol donde se buscará el valor mínimo.
      * @return El nodo que contiene el valor mínimo.
      */
-    private NodeTree<E> getNodeMin(NodeTree<E> rootSub) {
+    protected NodeTree<E> getNodeMin(NodeTree<E> rootSub) {
         NodeTree<E> actual = rootSub;
 
         while(actual.getLeft() != null) {
@@ -544,7 +544,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param rootSub La raíz del subárbol donde se buscará el valor máximo.
      * @return El nodo que contiene el valor máximo.
      */
-    private NodeTree<E> getNodeMax(NodeTree<E> rootSub) {
+    protected NodeTree<E> getNodeMax(NodeTree<E> rootSub) {
         NodeTree<E> actual = rootSub;
 
         while(actual.getRight() != null) {
@@ -583,7 +583,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param node la raíz del subárbol a evaluar.
      * @return la cantidad total de nodos hoja.
      */
-    private int countLeafNodes(NodeTree<E> node) {
+    protected int countLeafNodes(NodeTree<E> node) {
 
         QueueLink<NodeTree<E>> cola = new QueueLink<>();
         cola.enqueue(node);
@@ -618,7 +618,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
      * @param node el nodo a evaluar.
      * @return true si el nodo no tiene hijos, false en caso contrario.
      */
-    private boolean isLeaf(NodeTree<E> node) {
+    protected boolean isLeaf(NodeTree<E> node) {
         return node.getLeft() == null && node.getRight() == null;
     } 
 
