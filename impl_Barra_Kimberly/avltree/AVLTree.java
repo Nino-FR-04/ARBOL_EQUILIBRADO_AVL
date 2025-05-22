@@ -41,7 +41,7 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
                         height = true;
                         break;
                     case -1:
-                        fat = balanceToLeft(fat); // ahora va a la izquierda
+                        fat = balanceToLeft(fat); 
                         height = false;
                         break;
                 }
@@ -60,7 +60,7 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
                         height = true;
                         break;
                     case 1:
-                        fat = balanceToRight(fat); // ahora va a la derecha
+                        fat = balanceToRight(fat); 
                         height = false;
                         break;
                 }
@@ -74,13 +74,11 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
         NodeAVL<E> hijo = (NodeAVL<E>) node.left;
 
         if (hijo.bf == -1) {
-            // Rotación simple a la derecha
-            node.bf = 0;
+            node.bf = 0; //derecha
             hijo.bf = 0;
             node = rotateSR(node);
         } else {
-            // Rotación doble izquierda-derecha
-            NodeAVL<E> nieto = (NodeAVL<E>) hijo.right;
+            NodeAVL<E> nieto = (NodeAVL<E>) hijo.right; //izquierda derecha
 
             switch (nieto.bf) {
                 case -1:
@@ -110,13 +108,11 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
         NodeAVL<E> hijo = (NodeAVL<E>) node.right;
 
         if (hijo.bf == 1) {
-            // Rotación simple a la izquierda
-            node.bf = 0;
+            node.bf = 0; //izquierda
             hijo.bf = 0;
             node = rotateSL(node);
         } else {
-            // Rotación doble derecha-izquierda
-            NodeAVL<E> nieto = (NodeAVL<E>) hijo.left;
+            NodeAVL<E> nieto = (NodeAVL<E>) hijo.left; //derecha izquierda
 
             switch (nieto.bf) {
                 case 1:
@@ -148,9 +144,6 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
         node.right = p.left;
         p.left = node;
 
-        updateBalanceFactor(node);
-        updateBalanceFactor(p);
-
         return p;
     }
 
@@ -160,30 +153,99 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
         node.left = p.right;
         p.right = node;
 
-        updateBalanceFactor(node);
-        updateBalanceFactor(p);
-
         return p;
     }
-    /**
-     * Actualiza el factor de balance de un nodo AVL.
-     * @param node Nodo al cual se le actualizará el balance.
-     */
-
-    private void updateBalanceFactor(NodeAVL<E> node) {
-        if (node != null) {
-            node.bf = height((NodeAVL<E>) node.left) - height((NodeAVL<E>) node.right);
-        }
+    public void remove(E x) {
+        height = false;
+        this.root = remove(x, (NodeAVL<E>) this.root);
     }
-    /**
-     * Calcula la altura de un nodo AVL de forma recursiva.
-     * @param node Nodo del que se desea conocer la altura.
-     * @return Altura del nodo.
-     */
 
-    private int height(NodeAVL<E> node) {
-        if (node == null) return 0;
-        return 1 + Math.max(height((NodeAVL<E>) node.left), height((NodeAVL<E>) node.right));
+    private NodeAVL<E> remove(E x, NodeAVL<E> node) {
+        if (node == null) return null;
+
+        int resC = x.compareTo(node.data);
+
+        if (resC < 0) {
+            node.left = remove(x, (NodeAVL<E>) node.left);
+            if (height) node = balanceToRightAfterDelete(node);
+        } else if (resC > 0) {
+            node.right = remove(x, (NodeAVL<E>) node.right);
+            if (height) node = balanceToLeftAfterDelete(node);
+        } else {
+            if (node.left == null || node.right == null) {
+                node = (NodeAVL<E>) (node.left != null ? node.left : node.right);
+                height = true;
+            } else {
+                NodeAVL<E> successor = getMin((NodeAVL<E>) node.right);
+                node.data = successor.data;
+                node.right = remove(successor.data, (NodeAVL<E>) node.right);
+                if (height) node = balanceToLeftAfterDelete(node);
+            }
+        }
+        return node;
+    }
+    private NodeAVL<E> balanceToLeftAfterDelete(NodeAVL<E> node) {
+        switch (node.bf) {
+            case -1:
+                node.bf = 0;
+                break;
+            case 0:
+                node.bf = 1;
+                height = false;
+                break;
+            case 1:
+                NodeAVL<E> rightChild = (NodeAVL<E>) node.right;
+                if (rightChild.bf >= 0) {
+                    node = rotateSL(node);
+                    if (rightChild.bf == 0) {
+                        node.bf = -1;
+                        ((NodeAVL<E>) node.left).bf = 1;
+                        height = false;
+                    } else {
+                        node.bf = 0;
+                        ((NodeAVL<E>) node.left).bf = 0;
+                    }
+                } else {
+                    node = balanceToRight(node);
+                }
+                break;
+        }
+        return node;
+    }
+
+    private NodeAVL<E> balanceToRightAfterDelete(NodeAVL<E> node) {
+        switch (node.bf) {
+            case 1:
+                node.bf = 0;
+                break;
+            case 0:
+                node.bf = -1;
+                height = false;
+                break;
+            case -1:
+                NodeAVL<E> leftChild = (NodeAVL<E>) node.left;
+                if (leftChild.bf <= 0) {
+                    node = rotateSR(node);
+                    if (leftChild.bf == 0) {
+                        node.bf = 1;
+                        ((NodeAVL<E>) node.right).bf = -1;
+                        height = false;
+                    } else {
+                        node.bf = 0;
+                        ((NodeAVL<E>) node.right).bf = 0;
+                    }
+                } else {
+                    node = balanceToLeft(node);
+                }
+                break;
+        }
+        return node;
+    }
+    private NodeAVL<E> getMin(NodeAVL<E> node) {
+        while (node.left != null) {
+            node = (NodeAVL<E>) node.left;
+        }
+        return node;
     }
 
     @Override
