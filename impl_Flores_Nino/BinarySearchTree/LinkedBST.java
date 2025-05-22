@@ -424,8 +424,7 @@ public class LinkedBST <E extends Comparable<E>> implements TADBinarySearchTree 
     /**
      * Método auxiliar recursivo para realizar el recorrido en preorden.
      * 
-     * En el recorrido en preorden se procesa el nodo actual primero, luego el subárbol izquierdo y finalmente 
-     * el subárbol derecho.
+     * En el recorrido en pón
      *
      * @param node El nodo actual desde el cual se comienza el recorrido.
      * @return Un StringBuilder con los elementos en preorden.

@@ -19,6 +19,7 @@ public class NodeAVL<E> extends NodeTree<E> {
     //getter y setter
     public int getFactEquilibrio() {return this.fe;}
     public void setFactEquilibrio(int fe) {this.fe = fe;}
+    public void setData(E data) {this.data = data;}
 
     //ToString
     @Override
