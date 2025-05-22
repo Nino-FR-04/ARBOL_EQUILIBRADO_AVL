@@ -190,14 +190,14 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
                 node.bf = 0;
                 break;
             case 0:
-                node.bf = 1;
+                node.bf = -1;
                 height = false;
                 break;
             case 1:
-                NodeAVL<E> rightChild = (NodeAVL<E>) node.right;
-                if (rightChild.bf >= 0) {
+                NodeAVL<E> sucesorder = (NodeAVL<E>) node.right;
+                if (sucesorder.bf >= 0) {
                     node = rotateSL(node);
-                    if (rightChild.bf == 0) {
+                    if (sucesorder.bf == 0) {
                         node.bf = -1;
                         ((NodeAVL<E>) node.left).bf = 1;
                         height = false;
@@ -223,10 +223,10 @@ public class AVLTree<E extends Comparable <E>> extends LinkedBST<E> {
                 height = false;
                 break;
             case -1:
-                NodeAVL<E> leftChild = (NodeAVL<E>) node.left;
-                if (leftChild.bf <= 0) {
+                NodeAVL<E> sucesorizq = (NodeAVL<E>) node.left;
+                if (sucesorizq.bf <= 0) {
                     node = rotateSR(node);
-                    if (leftChild.bf == 0) {
+                    if (sucesorizq.bf == 0) {
                         node.bf = 1;
                         ((NodeAVL<E>) node.right).bf = -1;
                         height = false;

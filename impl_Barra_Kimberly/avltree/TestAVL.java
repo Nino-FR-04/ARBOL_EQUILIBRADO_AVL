@@ -22,7 +22,7 @@ public class TestAVL {
             avl.insert(25);   
             System.out.println(avl);
 
-            avl.remove(20);;
+            avl.remove(25);;
             System.out.println(avl);
 
 
